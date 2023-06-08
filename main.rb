@@ -25,7 +25,7 @@ class Main
     end
   end
 
-  #private
+  private #private, потому что методы используются только в классе Main
 
   def commands
     puts "Доступные команды:
