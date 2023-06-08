@@ -125,7 +125,6 @@ class Main
   end
 
   def train_route(train, route)
-
   end
 
   def create_wagons
