@@ -58,12 +58,6 @@ class Main
     end
   end
 
-  def station_select
-  end
-
-  def route_select
-  end
-
   def create_station
     puts "Введите название для станции:"
     station_name = gets.chomp.to_s
