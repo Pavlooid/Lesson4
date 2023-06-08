@@ -135,6 +135,10 @@ class Main
   end
 
   def show_stations_and_train
+    print "Все станции: "
+    @stations.each do |station|
+      print "#{station}, "
+      #дописать поезда
   end
 
 end
