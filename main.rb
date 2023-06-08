@@ -18,14 +18,14 @@ class Main
   puts "Здравствуйте! Добро пожаловать в интерфейс управления железной дорогой."
   loop do
     commands
-    print "Укажите номер требуемой команды."
+    print "Укажите номер требуемой команды: "
     command = gets.chomp.to_i
     break if command == 0
     do_command(command)
     end
   end
 
-  private
+  #private
 
   def commands
     puts "Доступные команды:
@@ -56,6 +56,12 @@ class Main
     when 7
       show_stations_and_train
     end
+  end
+
+  def station_select
+  end
+
+  def route_select
   end
 
   def create_station
@@ -124,7 +130,8 @@ class Main
     puts "Станция #{station} успешно удалена из маршрута."
   end
 
-  def train_route
+  def train_route(train, route)
+
   end
 
   def create_wagons
@@ -135,4 +142,8 @@ class Main
 
   def show_stations_and_train
   end
+
 end
+
+main = Main.new
+main.start
