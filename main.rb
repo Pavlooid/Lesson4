@@ -99,8 +99,10 @@ class Main
   end
 
   def create_route
-    puts "Введите первую станцию маршрута:"
+    puts "#{@stations} - все доступные станции. Введите первую станцию маршрута: "
     first_station = gets.chomp.to_s
+    #if first_station = @stations.include
+      #puts
     puts "Введите конечную станцию маршрута:"
     last_station = gets.chomp.to_s
     route = Route.new(first_station, last_station)
@@ -113,14 +115,17 @@ class Main
     station = gets.chomp.to_s
     puts "Введите расположение станции цифрой от начала."
     position = gets.chomp.to_i
-    route.add(position, station)
+    #@routes.insert(position, station)
     puts "Станция #{station} успешно добавлена в маршрут."
   end
 
   def delete_station
     puts "Введите название станции для удаления из маршрута."
     station = gets.chomp.to_s
-    route.delete(station)
+    if station = @routes.include(station)
+     #@routes.delete(station)
+     #else
+     #puts ("Такой станции нет")
     puts "Станция #{station} успешно удалена из маршрута."
   end
 
