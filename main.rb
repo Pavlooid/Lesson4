@@ -132,9 +132,10 @@ class Main
     station = gets.chomp.to_s
     if station = @routes.include(station)
      #@routes.delete(station)
-     #else
+     #puts "Станция #{station} успешно удалена из маршрута."
+    #else
      #puts ("Такой станции нет")
-    puts "Станция #{station} успешно удалена из маршрута."
+    #end
   end
 
   def train_route(train, route)
