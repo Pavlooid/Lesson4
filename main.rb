@@ -101,10 +101,18 @@ class Main
   def create_route
     puts "#{@stations} - все доступные станции. Введите первую станцию маршрута: "
     first_station = gets.chomp.to_s
-    #if first_station = @stations.include
-      #puts
+    #if first_station = @stations.include?(first_station)
+      #puts ("Первая станция установлена - #{first_station}.")
+    #else
+      #puts ("Такой станции нет.")
+      #break
     puts "Введите конечную станцию маршрута:"
     last_station = gets.chomp.to_s
+    if last_station = @stations.include?(last_station)
+      #puts ("Последняя станция установлена - #{last_station}.")
+    #else
+      #puts ("Такой станции нет.")
+      #break
     route = Route.new(first_station, last_station)
     @routes << route
     puts "Маршрут #{route.inspect} создан успешно."
