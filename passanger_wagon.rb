@@ -1,4 +1,4 @@
-class Passanger_wagon < Wagon
+class PassangerWagon < Wagon
   def initialize
     @type = "Passanger"
   end
