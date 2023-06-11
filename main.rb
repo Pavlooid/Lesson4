@@ -8,6 +8,7 @@ require_relative 'cargo_wagon'
 require_relative 'passanger_wagon'
 
 class Main
+
   def initialize
     @stations = []
     @trains = []
@@ -15,13 +16,13 @@ class Main
   end
 
   def start
-  puts "Здравствуйте! Добро пожаловать в интерфейс управления железной дорогой."
-  loop do
-    commands
-    print "Укажите номер требуемой команды: "
-    command = gets.chomp.to_i
-    break if command == 0
-    do_command(command)
+    puts "Здравствуйте! Добро пожаловать в интерфейс управления железной дорогой."
+    loop do
+      commands
+      print "Укажите номер требуемой команды: "
+      command = gets.chomp.to_i
+      break if command == 0
+      do_command(command)
     end
   end
 
@@ -33,10 +34,30 @@ class Main
     2 - Создать поезд.
     3 - Управление маршрутом.
     4 - Назначить маршрут поезду.
-    5 - Управление вагонами.
-    6 - Перемещение поезда.
-    7 - Просмотреть список станций и поездов на станции.
+    5 - Добавить вагон поезду.
+    6 - Отсоединить вагон от поезда.
+    7 - Передвигать поезд.
+    8 - Показать станции и поезда.
     0 - Выйти из программы. "
+  end
+
+  def show_stations
+    puts "Все доступные станции: "
+    @stations.each_with_index do |station, index|
+    puts "#{index + 1} - #{station.inspect}"
+    end
+  end
+
+  def show_trains
+    puts "Все доступные поезда: "
+    @trains.each_with_index do |train, index|
+    puts "#{index + 1} - #{train.inspect}"
+    end
+  end
+
+  def select_train
+    train_index = gets.chomp.to_i - 1
+    train = @trains[train_index]
   end
 
   def do_command(number)
@@ -50,11 +71,13 @@ class Main
     when 4
       train_route
     when 5
-      create_wagons
+      add_wagon_to_train
     when 6
-      train_moving
+      detach_wagon_from_train
     when 7
-      show_stations_and_train
+      train_moving
+    when 8
+      show_stations
     end
   end
 
@@ -95,63 +118,103 @@ class Main
         add_station
       when 3
         delete_station
-      end
+    end
   end
 
   def create_route
-    puts "#{@stations} - все доступные станции. Введите первую станцию маршрута: "
-    first_station = gets.chomp.to_s
-    #if first_station = @stations.include?(first_station)
-      #puts ("Первая станция установлена - #{first_station}.")
-    #else
-      #puts ("Такой станции нет.")
-      #break
-    puts "Введите конечную станцию маршрута:"
-    last_station = gets.chomp.to_s
-    if last_station = @stations.include?(last_station)
-      #puts ("Последняя станция установлена - #{last_station}.")
-    #else
-      #puts ("Такой станции нет.")
-      #break
+    show_stations
+    puts "Введите индекс первой станции маршрута: "
+    first_station = gets.chomp.to_i - 1
+    puts "Введите индекс конечной станции маршрута:"
+    last_station = gets.chomp.to_i - 1
     route = Route.new(first_station, last_station)
     @routes << route
-    puts "Маршрут #{route.inspect} создан успешно."
+    puts "Маршрут создан успешно."
   end
 
   def add_station
-    puts "Введите название станции для добавления в маршрут."
-    station = gets.chomp.to_s
-    puts "Введите расположение станции цифрой от начала."
-    position = gets.chomp.to_i
-    #@routes.insert(position, station)
+    show_stations
+    puts "Введите индекс станции для добавления в маршрут."
+    station = gets.chomp.to_i
+    @routes.insert(-2, station)
     puts "Станция #{station} успешно добавлена в маршрут."
   end
 
   def delete_station
-    puts "Введите название станции для удаления из маршрута."
-    station = gets.chomp.to_s
-    if station = @routes.include(station)
-     #@routes.delete(station)
-     #puts "Станция #{station} успешно удалена из маршрута."
-    #else
-     #puts ("Такой станции нет")
-    #end
+    show_stations
+    puts "Введите индекс станции для удаления из маршрута."
+    station = gets.chomp.to_i
+    if station = @routes.include?(station - 1)
+     route.delete(station)
+     puts "Станция #{station} успешно удалена из маршрута."
+    else
+     puts ("Такой станции нет")
+    end
   end
 
-  def train_route(train, route)
+  def train_route
+    puts "Доступные поезда и маршруты: "
+    @trains.each do |train|
+      puts "#{train.inspect}"
+    end
+    @routes.each do |route|
+      puts "#{route.inspect}"
+    end
+
+    puts "Введите индекс поезда и маршрута -  "
+    select_train
+    route_index = gets.chomp.to_i - 1
+    route = @routes[route_index]
+    train.set_route(route)
+    puts "Маршрут задан успешно."
   end
 
-  def create_wagons
+  def add_wagon_to_train
+    show_trains
+    puts "Введите индекс поезда: "
+    select_train
+    puts "Введите тип вагона 1 - грузовой, 2 - пассажирский: "
+      wagon_type = gets.chomp.to_i
+      case wagon_type
+      when 1
+        wagon = CargoWagon.new
+        train.add_wagon(wagon)
+        puts "Грузовой вагон добавлен успешно."
+      when 2
+        wagon = PassangerWagon.new
+        train.add_wagon(wagon)
+        puts "Пассажирский вагон добавлен успешно."
+      end
+  end
+
+  def detach_wagon_from_train
+    show_trains
+    puts "Введите индекс поезда: "
+    select_train
+    remove_wagon(wagon)
+    puts "Вагон отсоединён успешно."
   end
 
   def train_moving
+    show_trains
+    puts "Введите индекс поезда: "
+    select_train
+    puts "Введите 1 для движения поезда вперед, 2 для движения назад."
+    action = gets.chomp.to_i
+    case action
+      when 1
+        train.move_forward
+        puts "Поезд проехал вперед."
+      when 2
+        train.move_back
+        puts "Поезд проехал назад."
+      end
   end
 
-  def show_stations_and_train
-    print "Все станции: "
+  def show_stations_and_trains
     @stations.each do |station|
-      print "#{station}, "
-      #дописать поезда
+      puts "Все станции и поезда на них: #{station.inspect}"
+      end
   end
 
 end

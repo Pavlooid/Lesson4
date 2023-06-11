@@ -2,7 +2,7 @@ class CargoTrain < Train
 
   def initialize(number)
     super
-    @type = "Cargo"
+    @type = "cargo"
   end
 
 end

@@ -22,7 +22,7 @@ class Train
       end
   end
 
-  def route(route)
+  def set_route(route)
     @route = route
     route.stations.first.add_train(self)
     @index = 0
