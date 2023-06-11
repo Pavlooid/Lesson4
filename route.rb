@@ -7,8 +7,8 @@ class Route
     @stations = [first, last]
   end
 
-  def add(position, station) # Укажите промежуток для добавления станции
-    stations.insert(position, station)
+  def add(station) # Укажите промежуток для добавления станции
+    stations.insert(-2, station)
   end
 
   def delete(station)

@@ -178,10 +178,14 @@ class Main
       case wagon_type
       when 1
         wagon = CargoWagon.new
+        puts "Введите вагон для присоединения:"
+        wagon = gets.chomp
         train.add_wagon(wagon)
         puts "Грузовой вагон добавлен успешно."
       when 2
         wagon = PassangerWagon.new
+        puts "Введите вагон для присоединения:"
+        wagon = gets.chomp
         train.add_wagon(wagon)
         puts "Пассажирский вагон добавлен успешно."
       end
@@ -191,6 +195,8 @@ class Main
     show_trains
     puts "Введите индекс поезда: "
     select_train
+    puts "Введите вагон для удаления:"
+    wagon = gets.chomp
     remove_wagon(wagon)
     puts "Вагон отсоединён успешно."
   end
