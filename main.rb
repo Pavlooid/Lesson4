@@ -122,14 +122,24 @@ class Main
   end
 
   def create_route
-    show_stations
-    puts "Введите индекс первой станции маршрута: "
-    first_station = gets.chomp.to_i - 1
-    puts "Введите индекс конечной станции маршрута:"
-    last_station = gets.chomp.to_i - 1
-    route = Route.new(first_station, last_station)
-    @routes << route
-    puts "Маршрут создан успешно."
+    if @stations.size < 2
+      puts "Для создания маршрута требуется хотя бы две станции."
+      return
+    else
+      show_stations
+      puts "Введите индекс первой станции маршрута: "
+      first_station = gets.chomp.to_i - 1
+      puts "Введите индекс конечной станции маршрута:"
+      last_station = gets.chomp.to_i - 1
+      if last_station == first_station
+        puts "Первая станция не может быть последней"
+        return
+      else
+        route = Route.new(first_station, last_station)
+        @routes << route
+        puts "Маршрут создан успешно."
+      end
+    end
   end
 
   def add_station
