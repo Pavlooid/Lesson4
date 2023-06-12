@@ -58,6 +58,7 @@ class Main
   def select_train
     train_index = gets.chomp.to_i - 1
     train = @trains[train_index]
+    return train
   end
 
   def do_command(number)
@@ -77,7 +78,7 @@ class Main
     when 7
       train_moving
     when 8
-      show_stations
+      show_stations_and_trains
     end
   end
 
@@ -172,7 +173,7 @@ class Main
     end
 
     puts "Введите индекс поезда и маршрута -  "
-    select_train
+    train = select_train
     route_index = gets.chomp.to_i - 1
     route = @routes[route_index]
     train.set_route(route)
@@ -182,7 +183,7 @@ class Main
   def add_wagon_to_train
     show_trains
     puts "Введите индекс поезда: "
-    select_train
+    train = select_train
     puts "Введите тип вагона 1 - грузовой, 2 - пассажирский: "
       wagon_type = gets.chomp.to_i
       case wagon_type
@@ -204,7 +205,7 @@ class Main
   def detach_wagon_from_train
     show_trains
     puts "Введите индекс поезда: "
-    select_train
+    train = select_train
     puts "Введите вагон для удаления:"
     wagon = gets.chomp
     remove_wagon(wagon)
@@ -214,7 +215,7 @@ class Main
   def train_moving
     show_trains
     puts "Введите индекс поезда: "
-    select_train
+    train = select_train
     puts "Введите 1 для движения поезда вперед, 2 для движения назад."
     action = gets.chomp.to_i
     case action
@@ -228,9 +229,8 @@ class Main
   end
 
   def show_stations_and_trains
-    @stations.each do |station|
-      puts "Все станции и поезда на них: #{station.inspect}"
-      end
+    show_trains
+    show_stations
   end
 
 end
